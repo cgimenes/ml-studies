@@ -4,7 +4,16 @@ from PIL import Image
 import numpy as np
 from joblib import load
 
-model = load("model.joblib")
+import urllib.request
+import tarfile
+from pathlib import Path
+
+model_path = Path("model.joblib")
+if not model_path.is_file():
+    url = "https://github.com/cgimenes/ml-studies/raw/master/sklearn/mnist/model.joblib"
+    urllib.request.urlretrieve(url, model_path)
+
+model = load(model_path)
 
 st.set_page_config(
     page_title="Number recognition",
@@ -23,18 +32,18 @@ st.set_page_config(
 )
 
 st.title("Number recognition using Multilayer Perceptron")
-st.text("by Marcelo Gimenes")
+st.markdown("by [Marcelo Gimenes de Oliveira](https://github.com/cgimenes)")
 
 col1, col2 = st.columns([3, 1])
 
 with col1:
     canvas_result = st_canvas(
-        stroke_width=60,
+        stroke_width=50,
         stroke_color="#fff",
         background_color="#000",
         update_streamlit=True,
-        height=500,
-        width=500,
+        height=28 * 17,
+        width=28 * 17,
         drawing_mode="freedraw",
         display_toolbar=True,
     )
@@ -49,4 +58,5 @@ with col2:
         number = np.asarray(im).reshape(-1)
         prediction = model.predict([number])[0]
 
-        st.header(f"Predicted number: {prediction}")
+        st.markdown("### Predicted number")
+        st.markdown(f"# {prediction}")
