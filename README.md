@@ -10,6 +10,7 @@
 4. The Hundred-Page Machine Learning Book by Andriy Burkov
 5. Deep Learning by Ian Goodfellow, Yoshua Bengio and Aaron Courville
 6. Intro to Machine Learning with Python Course - The Iris Dataset https://www.youtube.com/playlist?list=PLMAyPTgGwv2DUV6DZib9eMetsTTX87JNr
+7. Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow, 3rd Edition by Aurélien Géron
 
 ## Implementation
 
