@@ -34,9 +34,10 @@ st.set_page_config(
 st.title("Number recognition using Multilayer Perceptron")
 st.markdown("by [Marcelo Gimenes de Oliveira](https://github.com/cgimenes)")
 
-col1, col2 = st.columns([3, 1])
+col1, col2 = st.columns([4, 2])
 
 with col1:
+    st.subheader("Draw a digit below")
     canvas_result = st_canvas(
         stroke_width=50,
         stroke_color="#fff",
@@ -49,14 +50,19 @@ with col1:
     )
 
 with col2:
-    if canvas_result.image_data is not None:
+    if (
+        canvas_result.json_data is not None
+        and len(canvas_result.json_data["objects"]) > 0
+    ):
         img_data = canvas_result.image_data.astype("uint8")
         im = Image.fromarray(img_data, mode="RGBA")
         im = im.convert("L")
         im.thumbnail((28, 28), Image.LANCZOS)
 
         number = np.asarray(im).reshape(-1)
-        prediction = model.predict([number])[0]
+        pred_proba = model.predict_proba([number])[0]
+        pred_index = pred_proba.argmax()
 
-        st.markdown("### Predicted number")
-        st.markdown(f"# {prediction}")
+        st.markdown(
+            f"## I'm {pred_proba[pred_index]*100:.0f}% confident that this is a {pred_index}!"
+        )
